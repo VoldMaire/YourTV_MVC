@@ -20,6 +20,18 @@ namespace YourTV_DAL.Repositories
         private IRepository<Comment> commentRepository;
         private IRepository<Playlist> playlistRepository;
 
+        public IdentityUnitOfWork()
+        {
+            db = new ApplicationContext();
+            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
+            clientManager = new ClientManager(db);
+            videoRepository = new VideoRepository(db);
+            categoryRepository = new CategoryRepository(db);
+            commentRepository = new CommentRepository(db);
+            playlistRepository = new PlaylistRepository(db);
+        }
+
         public IdentityUnitOfWork(string connectionString)
         {
             db = new ApplicationContext(connectionString);

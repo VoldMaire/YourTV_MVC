@@ -6,6 +6,7 @@ namespace YourTV_DAL.EF
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationContext() : base() { }
         public ApplicationContext(string conectionString) : base(conectionString) { }
 
         public DbSet<ClientProfile> ClientProfiles { get; set; }
