@@ -4,6 +4,8 @@ using Owin;
 using YourTV_BLL.Services;
 using Microsoft.AspNet.Identity;
 using YourTV_BLL.Interfaces;
+using Microsoft.Owin.Security.DataProtection;
+using Microsoft.AspNet.Identity.Owin;
 
 [assembly: OwinStartup(typeof(YourTV_WEB.App_Start.Startup))]
 
@@ -24,7 +26,10 @@ namespace YourTV_WEB.App_Start
 
         private IUserService CreateUserService()
         {
-            return serviceCreator.CreateUserService("YourTV");
+            IUserService userService = serviceCreator.CreateUserService("YourTV");
+            userService.EmailService = new EmailService();
+            userService.SetDefaultTokenProvider();
+            return userService;
         }
     }
 }

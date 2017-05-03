@@ -9,12 +9,40 @@ using YourTV_DAL.Interfaces;
 using YourTV_DAL.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using Microsoft.Owin.Security.DataProtection;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace YourTV_BLL.Services
 {
     public class UserService : IUserService
     {
         IUnitOfWork Database { get; set; }
+
+        public IIdentityMessageService EmailService
+        {
+            get
+            {
+                return Database.UserManager.EmailService;
+            }
+
+            set
+            {
+                Database.UserManager.EmailService = value;
+            }
+        }
+
+        public IUserTokenProvider<ApplicationUser, string> UserTokenProvider
+        {
+            get
+            {
+                return Database.UserManager.UserTokenProvider;
+            }
+            set
+            {
+                Database.UserManager.UserTokenProvider = value;
+            }
+        }
 
         public UserService(IUnitOfWork unitOfWork)
         {
@@ -42,6 +70,21 @@ namespace YourTV_BLL.Services
             }
         }
 
+        public async Task<UserDTO> FindAsync(string email, string password)
+        {
+            ApplicationUser user = await Database.UserManager.FindAsync(email, password);
+            if (user != null)
+            {
+                UserDTO resultUser = new UserDTO();
+                resultUser.Email = user.Email;
+                resultUser.Id = user.Id;
+                resultUser.Name = user.ClientProfile.Name;
+                resultUser.Address = user.ClientProfile.Address;
+                return resultUser;
+            }
+            return null;
+        }
+
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
@@ -50,6 +93,15 @@ namespace YourTV_BLL.Services
                 claim = await Database.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
+        }
+
+        public async Task<bool> IsEmailConfirmed(UserDTO userDto)
+        {
+            ApplicationUser user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
+            if (user != null)
+                return user.EmailConfirmed;
+            else
+                return false;
         }
 
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)
@@ -66,9 +118,32 @@ namespace YourTV_BLL.Services
             await Create(adminDto);
         }
 
+        public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
+        {
+            var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(userId);
+            return token;
+        }
+
+        public async Task SendEmailAsync(string userId, string subject, string message)
+        {
+            await Database.UserManager.SendEmailAsync(userId, subject, message);
+        }
+
         public void Dispose()
         {
             Database.Dispose();
+        }
+
+        public void SetDefaultTokenProvider()
+        {
+            var provider = new DpapiDataProtectionProvider("YourTV");
+            Database.UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
+                provider.Create("EmailConfirmation"));
+        }
+
+        public async Task<IdentityResult> ConfirmEmail(string userId,string code)
+        {
+            return await Database.UserManager.ConfirmEmailAsync(userId, code);
         }
     }
 }

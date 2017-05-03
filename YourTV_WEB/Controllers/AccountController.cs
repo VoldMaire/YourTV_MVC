@@ -8,6 +8,9 @@ using YourTV_BLL.DTO;
 using System.Security.Claims;
 using YourTV_BLL.Interfaces;
 using YourTV_BLL.Infrastructure;
+using System.Configuration;
+using System.Text;
+using Microsoft.AspNet.Identity;
 
 namespace UserStore.Controllers
 {
@@ -42,17 +45,22 @@ namespace UserStore.Controllers
             {
                 UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
                 ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Wrong login or password.");
                 }
                 else
                 {
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    if (await UserService.IsEmailConfirmed(userDto))
                     {
-                        IsPersistent = true
-                    }, claim);
+                        AuthenticationManager.SignOut();
+                        AuthenticationManager.SignIn(new AuthenticationProperties
+                        {
+                            IsPersistent = true
+                        }, claim);
+                    }
+                    else ModelState.AddModelError("", "Email was not confirmed.");
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -86,11 +94,37 @@ namespace UserStore.Controllers
                 };
                 OperationDetails operationDetails = await UserService.Create(userDto);
                 if (operationDetails.Succedeed)
-                    return View("SuccessRegistration");
+                {
+                    UserDTO userDtoWithId = await UserService.FindAsync(userDto.Email, userDto.Password);
+                    string code = await UserService.GenerateEmailConfirmationTokenAsync(userDtoWithId.Id);
+                    string callBackURL = Url.Action("ConfirmEmail", "Account", new { userId = userDtoWithId.Id, code = code },
+                                                   protocol: Request.Url.Scheme);
+
+                    StringBuilder confirmingMessage = new StringBuilder(ConfigurationManager.AppSettings["EmailConfirmingMessageStart"]);
+                    confirmingMessage.Append("<a href=\"");
+                    confirmingMessage.Append(callBackURL);
+                    confirmingMessage.Append("\">Press to confirm email. <a/>");
+                    confirmingMessage.Append(ConfigurationManager.AppSettings["EmailConfirmingMessageEnd"]);
+
+                    string subject = ConfigurationManager.AppSettings["Subject"];
+                    await UserService.SendEmailAsync(userDtoWithId.Id, subject, confirmingMessage.ToString());
+                    return View("DisplayEmail");
+                }
                 else
                     ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        {
+            IdentityResult operationResult = await UserService.ConfirmEmail(userId, code);
+            if (operationResult.Succeeded)
+            {
+                return View("SuccessRegistration");
+            }
+            return View("Error");
         }
     }
 }
