@@ -9,6 +9,9 @@ build/
 
 **/[Ss]cripts/jquery*.map
 **/[Ss]cripts/modernizr*.js
+**/[Ss]cripts/_reference*.js
+**/[Ss]cripts/respond*.js
+
 
 ConsoleDalTest/
 
