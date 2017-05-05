@@ -9,5 +9,10 @@ namespace YourTV_BLL.Services
         {
             return new UserService(new IdentityUnitOfWork(connection));
         }
+
+        public IPlaylistService CreatePlaylistService(string connection)
+        {
+            return new PlaylistService(new IdentityUnitOfWork(connection));
+        }
     }
 }

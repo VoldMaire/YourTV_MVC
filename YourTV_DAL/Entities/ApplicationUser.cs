@@ -14,6 +14,7 @@ namespace YourTV_DAL.Entities
         {
             Comments = new List<Comment>();
             Playlists = new List<Playlist>();
+            Videos = new List<Video>();
         }
     }
 }

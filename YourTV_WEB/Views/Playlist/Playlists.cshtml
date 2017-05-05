@@ -1,0 +1,48 @@
+﻿@model YourTV_WEB.Models.PlaylistsViewModel
+
+@{
+    ViewBag.Title = "Playlists";
+}
+@Styles.Render("~/Content/Site.css")
+
+<h2>Playlists</h2>
+<div class="row control-menu">
+    <button class="btn btn-default playlist-create" data-toggle="modal" data-target="#playlist-create">Create</button>
+</div>
+<div class="row line-container">
+    @foreach (var item in Model.Playlists)
+    {
+        <div class="fixed-box">
+            <img src="~/Content/Images/DefaultPlaylist.png" alt="@item.Name"/>
+            <p>@item.Name</p>
+        </div>
+    }
+</div>
+
+<div id="playlist-create" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="button" class="close" data-dismiss="modal" value="X" />
+                <h4>Adding playlist</h4>
+            </div>
+            <div class="modal-body">
+                @using (@Html.BeginForm("PlaylistConcrete", "Playlist", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <p class="text-info">Name</p>
+                    @Html.EditorFor(model => model.PlaylistConcrete.Name, new {htmlAttributes = new { @class = "form-control modal-input" , @name = "Name" } })
+                    @Html.ValidationMessageFor(model=>model.PlaylistConcrete.Name, "" , new { @class="text-danger", @name = "Name" })
+                    <p class="text-info">Description</p>
+                    <textarea  class="form-control modal-input" name="Description" ></textarea>
+                    <input type="submit" class="modal-input btn-default" value="Create" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/scripts/jquery-3.1.0.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/bootstrap.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+@Scripts.Render("~/bundles/jquery")

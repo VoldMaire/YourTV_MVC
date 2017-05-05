@@ -13,5 +13,9 @@ namespace YourTV_DAL.Entities
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [ForeignKey("Video")]
+        public int VideoId { get; set; }
+        public virtual Video Video { get; set; }
     }
 }

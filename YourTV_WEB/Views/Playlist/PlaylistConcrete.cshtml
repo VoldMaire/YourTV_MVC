@@ -1,0 +1,25 @@
+﻿@model YourTV_BLL.DTO.PlaylistDTO
+
+@{
+    ViewBag.Title = "Playlist";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>@Model.Name</h2>
+<div class="row line-container">
+    <div class="playlist-line">
+        <img src="~/Content/Images/DefaultPlaylist.png" alt="@Model.Name" />
+        <p>@Model.Description</p>
+    </div>    
+</div>
+
+@foreach (var item in Model.Videos)
+{
+    <a href=@Url.Action("PlayVideo", "Video", new { Id = item.Id } )>
+        <div class="fixed-box">
+            <img src="~/Content/Images/DefaultVideo.png" alt="@item.Name" />
+            <p>@item.Name</p>
+        </div>
+    </a>
+}

@@ -4,9 +4,10 @@ namespace YourTV_WEB.Models
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Please enter your email.")]
+        [RegularExpression(@"(\w+)[@](\w+)[.](\w+)",ErrorMessage =("Your email has wrong format"))]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Please enter your password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

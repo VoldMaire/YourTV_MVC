@@ -5,6 +5,7 @@ using YourTV_DAL.Entities;
 using YourTV_DAL.EF;
 using System.Data.Entity;
 using YourTV_DAL.Interfaces;
+using System.Threading.Tasks;
 
 namespace YourTV_DAL.Repositories
 {
@@ -25,6 +26,11 @@ namespace YourTV_DAL.Repositories
         public Comment Get(int id)
         {
             return db.Comments.Find(id);
+        }
+
+        public async Task<Comment> GetAsync(int id)
+        {
+            return await db.Comments.FindAsync(id);
         }
 
         public void Create(Comment comment)

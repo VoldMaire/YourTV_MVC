@@ -18,10 +18,15 @@ namespace YourTV_DAL.Entities
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
+        public int PlaylistId { get; set; }
+        public Playlist Playlist { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public Video()
         {
             Categories = new List<Category>();
+            Comments = new List<Comment>();
         }
     }
 }

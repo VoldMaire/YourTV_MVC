@@ -5,6 +5,7 @@ using YourTV_DAL.Entities;
 using YourTV_DAL.EF;
 using YourTV_DAL.Interfaces;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace YourTV_DAL.Repositories
 {
@@ -25,6 +26,11 @@ namespace YourTV_DAL.Repositories
         public Video Get(int id)
         {
             return db.Videos.Find(id);
+        }
+
+        public async Task<Video> GetAsync(int id)
+        {
+            return await db.Videos.FindAsync(id);
         }
 
         public void Create(Video video)

@@ -70,6 +70,19 @@
     <Compile Include="Interfaces\IClientManager.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Migrations\201705021926071_InitialCreate.cs" />
+    <Compile Include="Migrations\201705021926071_InitialCreate.Designer.cs">
+      <DependentUpon>201705021926071_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705042047137_SomeMigration.cs" />
+    <Compile Include="Migrations\201705042047137_SomeMigration.Designer.cs">
+      <DependentUpon>201705042047137_SomeMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705051429032_PlaylistDescription.cs" />
+    <Compile Include="Migrations\201705051429032_PlaylistDescription.Designer.cs">
+      <DependentUpon>201705051429032_PlaylistDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\ClientManager.cs" />
@@ -82,7 +95,17 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201705021926071_InitialCreate.resx">
+      <DependentUpon>201705021926071_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705042047137_SomeMigration.resx">
+      <DependentUpon>201705042047137_SomeMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705051429032_PlaylistDescription.resx">
+      <DependentUpon>201705051429032_PlaylistDescription.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,6 +4,7 @@ using System.Linq;
 using YourTV_DAL.Entities;
 using YourTV_DAL.EF;
 using YourTV_DAL.Interfaces;
+using System.Threading.Tasks;
 
 using System.Data.Entity;
 
@@ -26,6 +27,11 @@ namespace YourTV_DAL.Repositories
         public Playlist Get(int id)
         {
             return db.Playlists.Find(id);
+        }
+
+        public async Task<Playlist> GetAsync(int id)
+        {
+            return await db.Playlists.FindAsync(id);
         }
 
         public void Create(Playlist playlist)
