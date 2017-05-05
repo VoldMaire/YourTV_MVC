@@ -1,11 +1,12 @@
-﻿$(function () {
+﻿
+$(function () {
     $.ajaxSetup({ cache: false });
-    $(".playlist-create").click(function (e) {
+    $("#btn-create-playlist").click(function (e) {
 
         e.preventDefault();
         $.get(this.href, function (data) {
             $('#dialogContent').html(data);
-            $('#modDialog').modal('show');
+            $('#playlist-create').modal('show');
         });
     });
 });

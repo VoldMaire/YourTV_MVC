@@ -45,6 +45,12 @@ namespace YourTV_WEB.Controllers
         }
 
         [Authorize]
+        public ActionResult AddingPlaylist()
+        {
+            return PartialView(new PlaylistConcreteViewModel());
+        }
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PlaylistConcrete(PlaylistConcreteViewModel model)

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using YourTV_BLL.DTO;
 
 namespace YourTV_WEB.Models
 {
@@ -9,5 +11,11 @@ namespace YourTV_WEB.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public IEnumerable<VideoDTO> Videos { get; set; }
+        public PlaylistConcreteViewModel()
+        {
+            Videos = new List<VideoDTO>();
+        }
     }
 }
