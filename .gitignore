@@ -4,6 +4,8 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+[Ss]cripts/jquery*
+[Ss]cripts/bootstrap*
 ConsoleDalTest/
 # NuGet Packages
 *.nupkg
