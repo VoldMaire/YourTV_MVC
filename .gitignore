@@ -12,7 +12,8 @@ build/
 **/[Ss]cripts/_reference*.js
 **/[Ss]cripts/respond*.js
 **/[Ff]onts
-
+*.suo
+*.user
 ConsoleDalTest/
 
 *.nupkg
