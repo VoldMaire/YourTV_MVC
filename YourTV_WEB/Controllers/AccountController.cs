@@ -92,7 +92,7 @@ namespace UserStore.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                OperationDetails operationDetails = await UserService.Create(userDto);
+                OperationDetails operationDetails = await UserService.CreateAsync(userDto);
                 if (operationDetails.Succedeed)
                 {
                     UserDTO userDtoWithId = await UserService.FindAsync(userDto.Email, userDto.Password);

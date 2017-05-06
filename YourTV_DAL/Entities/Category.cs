@@ -8,7 +8,7 @@ namespace YourTV_DAL.Entities
 
         public string Name { get; set; }
 
-        public ICollection<Video> Videos { get; set; }
+        public virtual ICollection<Video> Videos { get; set; }
         public Category()
         {
             Videos = new List<Video>();

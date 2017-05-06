@@ -7,19 +7,18 @@
 @Styles.Render("~/Content/Site.css")
 
 <h2>@Model.Name</h2>
-<div class="row line-container">
-    <div class="playlist-line">
-        <img src="~/Content/Images/DefaultPlaylist.png" alt="@Model.Name" />
-        <p>@Model.Description</p>
-    </div>    
+<div class="row  line-container">
+    <img class="col-md-2 " src="~/Content/Images/DefaultPlaylist.png" alt="@Model.Name" />
+    <p class="col-md-10">@Model.Description</p>
 </div>
-
-@foreach (var item in Model.Videos)
-{
-    <a href=@Url.Action("PlayVideo", "Video", new { Id = item.Id } )>
-        <div class="fixed-box">
-            <img src="~/Content/Images/DefaultVideo.png" alt="@item.Name" />
-            <p>@item.Name</p>
-        </div>
-    </a>
-}
+<div class="row">
+    @foreach (var item in Model.Videos)
+    {
+        <a href=@Url.Action("PlayVideo", "Video", new { Id = item.Id } )>
+            <div class="col-md-3" class="fixed-box">
+                <img class="video-image" src="~/Content/Images/DefaultVideo.png" alt="@item.Name" />
+                <p>@item.Name</p>
+            </div>
+        </a>
+    }
+</div>

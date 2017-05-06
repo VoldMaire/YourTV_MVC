@@ -9,5 +9,6 @@ namespace YourTV_BLL.Interfaces
     public interface IServiceCreator
     {
         IUserService CreateUserService(string connection);
+        IPlaylistService CreatePlaylistService(string connection);
     }
 }

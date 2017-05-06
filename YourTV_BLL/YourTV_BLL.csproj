@@ -98,7 +98,6 @@
     <Compile Include="Services\PlaylistService.cs" />
     <Compile Include="Services\ServiceCreator.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Services\UserServiceCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YourTV_DAL\YourTV_DAL.csproj">

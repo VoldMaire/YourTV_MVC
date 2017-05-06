@@ -53,21 +53,44 @@ namespace YourTV_WEB.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PlaylistConcrete(PlaylistConcreteViewModel model)
+        public async Task<ActionResult> AddingPlaylist(PlaylistConcreteViewModel model)
         {
             if (ModelState.IsValid)
             {
                 PlaylistDTO playlistDto = new PlaylistDTO { Name = model.Name,
                                                          Description = model.Description,
                                                          ApplicationUserId = User.Identity.GetUserId() };
-                ServiceCreator serviceCreator = new ServiceCreator();
+                IServiceCreator serviceCreator = new ServiceCreator();
                 using(IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
                 {
-                    await playlistService.AddAsync(playlistDto);
+                    await playlistService.CreateAsync(playlistDto);
+                    playlistDto = playlistService.GetLastByName(model.Name);
                 }
-                return View(model);
+                return RedirectToAction("PlaylistConcrete", "Playlist", playlistDto.Id);
             }
-            return HttpNotFound();
+            ModelState.AddModelError("", "Can't create such playlist.");
+            return PartialView(model);
+        }
+
+        [Authorize]
+        public ActionResult PlaylistConcrete(int id)
+        {
+            PlaylistConcreteViewModel modelPlaylist = new PlaylistConcreteViewModel();
+            IServiceCreator serviceCreator = new ServiceCreator();
+            using (IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
+            {
+                PlaylistDTO playlistDto = playlistService.GetById(id);
+                if(playlistDto != null)
+                {
+                    modelPlaylist.Id = playlistDto.Id;
+                    modelPlaylist.Name = playlistDto.Name;
+                    modelPlaylist.Description = playlistDto.Description;
+                    modelPlaylist.Videos = playlistDto.Videos;
+                }
+            }
+            if (modelPlaylist == null)
+                return HttpNotFound();
+            return View(modelPlaylist);
         }
     }
 }

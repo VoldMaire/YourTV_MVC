@@ -12,6 +12,7 @@ build/
 **/[Ss]cripts/_reference*.js
 **/[Ss]cripts/respond*.js
 **/[Ff]onts
+.vs
 *.suo
 *.user
 ConsoleDalTest/

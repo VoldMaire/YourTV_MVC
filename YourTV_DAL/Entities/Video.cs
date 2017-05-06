@@ -16,10 +16,10 @@ namespace YourTV_DAL.Entities
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual Playlist Playlist { get; set; }
         public int PlaylistId { get; set; }
-        public Playlist Playlist { get; set; }
+
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Category> Categories { get; set; }

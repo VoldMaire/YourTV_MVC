@@ -14,8 +14,10 @@
     @foreach (var item in Model.Playlists)
     {
         <div class="fixed-box">
-            <img src="~/Content/Images/DefaultPlaylist.png" alt="@item.Name"/>
-            <p>@item.Name</p>
+            <a href="@Url.Action("PlaylistConcrete", "Playlist", new { id = @item.Id })">
+                <img src="~/Content/Images/DefaultPlaylist.png" alt="@item.Name" />
+                <p>@item.Name</p>
+            </a>
         </div>
     }
 </div>

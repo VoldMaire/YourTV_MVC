@@ -6,7 +6,7 @@
         <h4>Adding playlist</h4>
     </div>
     <div class="modal-body">
-        @using (@Html.BeginForm("PlaylistConcrete", "Playlist", FormMethod.Post))
+        @using (@Html.BeginForm("AddingPlaylist", "Playlist", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <p class="text-info">Name</p>

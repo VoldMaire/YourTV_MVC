@@ -49,7 +49,7 @@ namespace YourTV_BLL.Services
             Database = unitOfWork;
         }
 
-        public async Task<OperationDetails> Create(UserDTO userDto)
+        public async Task<OperationDetails> CreateAsync(UserDTO userDto)
         {
             ApplicationUser user = await Database.UserManager.FindByEmailAsync(userDto.Email);
             if (user == null)
@@ -115,7 +115,7 @@ namespace YourTV_BLL.Services
                     await Database.RoleManager.CreateAsync(role);
                 }
             }
-            await Create(adminDto);
+            await CreateAsync(adminDto);
         }
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)

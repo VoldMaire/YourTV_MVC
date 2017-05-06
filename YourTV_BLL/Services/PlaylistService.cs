@@ -9,6 +9,7 @@ using YourTV_DAL.Repositories;
 using YourTV_BLL.Interfaces;
 using YourTV_DAL.Entities;
 using AutoMapper;
+using YourTV_BLL.Infrastructure;
 
 namespace YourTV_BLL.Services
 {
@@ -21,12 +22,35 @@ namespace YourTV_BLL.Services
             Database = uow;
         }
 
+        public PlaylistDTO GetById(int id)
+        {
+            Playlist playlist = Database.Playlists.Get(id);
+            if (playlist != null)
+            {
+                PlaylistDTO playlistDto = getDTOFromPlaylist(playlist);
+                return playlistDto;
+            }
+            return null;
+        }
+
+        public PlaylistDTO GetLastByName(string name)
+        {
+            Playlist playlist = Database.Playlists.GetAll().Where(p => p.Name == name).Last();
+            if (playlist != null)
+            {
+                PlaylistDTO playlistDTO = getDTOFromPlaylist(playlist);
+                return playlistDTO;
+            }
+            return null;
+        }
+
         public IEnumerable<PlaylistDTO> GetAllByUser(string userId)
         {
             IEnumerable<PlaylistDTO> playlistsDto;
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Playlist, PlaylistDTO>();
+            cfg.CreateMap<Playlist, PlaylistDTO>();
+            cfg.CreateMap<Video, VideoDTO>();
             });
             var mapper = config.CreateMapper();
             var userPlaylists = Database.Playlists.GetAll().Where(p => p.ApplicationUserId == userId).ToList();
@@ -34,21 +58,47 @@ namespace YourTV_BLL.Services
             return playlistsDto;
         }
 
-        public async Task AddAsync(PlaylistDTO playlistDto)
+        public async Task<OperationDetails> CreateAsync(PlaylistDTO playlistDto)
         {
-            var config = new MapperConfiguration(cfg =>
+            if (playlistDto == null)
             {
-                cfg.CreateMap<PlaylistDTO, Playlist>();
-            });
-            var mapper = config.CreateMapper();
-            Playlist playlist = mapper.Map<PlaylistDTO, Playlist>(playlistDto);
-            Database.Playlists.Create(playlist);
-            await Database.SaveAsync();
+                throw new ArgumentNullException("Can't add null object.");
+            }
+            if (playlistDto.Id == 0)
+            {
+                Playlist playlist = getPlaylistFromDTO(playlistDto);
+                Database.Playlists.Create(playlist);
+                await Database.SaveAsync();
+                return new OperationDetails(true, "Playlist was created succesfuly.", "");
+            }
+            return new OperationDetails(false, "Such playlist already exist. Can't add it again.", "");
         }
 
         public void Dispose()
         {
             Database.Dispose();
+        }
+
+        private Playlist getPlaylistFromDTO(PlaylistDTO playlistDto)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<PlaylistDTO, Playlist>();
+                cfg.CreateMap<VideoDTO, Video>();
+            });
+            var mapper = config.CreateMapper();
+            return mapper.Map<PlaylistDTO, Playlist>(playlistDto);
+        }
+
+        private PlaylistDTO getDTOFromPlaylist(Playlist playlist)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Playlist, PlaylistDTO>();
+                cfg.CreateMap<Video, VideoDTO>();
+            });
+            var mapper = config.CreateMapper();
+            return mapper.Map<Playlist, PlaylistDTO>(playlist);
         }
     }
 }

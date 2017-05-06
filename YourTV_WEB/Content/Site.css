@@ -24,7 +24,7 @@ textarea {
 }
 
 .line-container{
-    display: inline-block;
+    margin-bottom: 20px;
 }
 
 .fixed-box{
@@ -34,15 +34,20 @@ textarea {
 }
 
 .control-menu{
-    margin: 0px 0px 20px 0px;
+    margin-bottom: 20px;
 }
 
 input.modal-input{
-    margin: 10px 0px 20px 0px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 input[type="submit"].modal-input{
     border-radius: 4px;
     padding: 4px;
     font-size: 20px;
+}
+
+.video-image{
+    width:200px;
 }
