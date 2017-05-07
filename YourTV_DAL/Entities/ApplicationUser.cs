@@ -10,11 +10,13 @@ namespace YourTV_DAL.Entities
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Playlist> Playlists { get; set; }
         public virtual ICollection<Video> Videos { get; set; }
+        public virtual ICollection<Video> VideoLiked { get; set; }
         public ApplicationUser() : base()
         {
             Comments = new List<Comment>();
             Playlists = new List<Playlist>();
             Videos = new List<Video>();
+            VideoLiked = new List<Video>();
         }
     }
 }

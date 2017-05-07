@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationContext.cs" />
+    <Compile Include="EF\ApplicationInizializer.cs" />
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Category.cs" />
@@ -82,6 +83,22 @@
     <Compile Include="Migrations\201705051429032_PlaylistDescription.Designer.cs">
       <DependentUpon>201705051429032_PlaylistDescription.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705072016305_LikesMigration.cs" />
+    <Compile Include="Migrations\201705072016305_LikesMigration.Designer.cs">
+      <DependentUpon>201705072016305_LikesMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705072032542_LikesMigratinNext.cs" />
+    <Compile Include="Migrations\201705072032542_LikesMigratinNext.Designer.cs">
+      <DependentUpon>201705072032542_LikesMigratinNext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705072039444_Duration.cs" />
+    <Compile Include="Migrations\201705072039444_Duration.Designer.cs">
+      <DependentUpon>201705072039444_Duration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705072041545_Duration1.cs" />
+    <Compile Include="Migrations\201705072041545_Duration1.Designer.cs">
+      <DependentUpon>201705072041545_Duration1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
@@ -104,6 +121,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705051429032_PlaylistDescription.resx">
       <DependentUpon>201705051429032_PlaylistDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705072016305_LikesMigration.resx">
+      <DependentUpon>201705072016305_LikesMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705072032542_LikesMigratinNext.resx">
+      <DependentUpon>201705072032542_LikesMigratinNext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705072039444_Duration.resx">
+      <DependentUpon>201705072039444_Duration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705072041545_Duration1.resx">
+      <DependentUpon>201705072041545_Duration1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
