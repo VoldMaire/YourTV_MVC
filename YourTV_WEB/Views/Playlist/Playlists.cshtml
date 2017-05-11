@@ -7,23 +7,22 @@
 
 <h2>Playlists</h2>
 <div class="row control-menu">
-   <!-- <button class="btn btn-default playlist-create" id="btn-create-playlist" data-toggle="modal" data-target="#playlist-create">Create</button> -->
-    @Html.ActionLink("Create", "AddingPlaylist", new { }, new { @class="btn btn-default playlist-create",  id="btn-create-playlist" })
+    @Html.ActionLink("Create", "AddingPlaylist", new { }, new { @class = "btn btn-default playlist-create", id = "btn-create-playlist" })
 </div>
 <div class="row line-container">
     @foreach (var item in Model.Playlists)
     {
-        <div class="fixed-box">
+        <div class="col-md-3">
             <a href="@Url.Action("PlaylistConcrete", "Playlist", new { id = @item.Id })">
-                <img src="~/Content/Images/DefaultPlaylist.png" alt="@item.Name" />
+                <img class="video-image" src="~/Content/Images/DefaultPlaylist.png" alt="@item.Name" />
                 <p>@item.Name</p>
             </a>
         </div>
     }
 </div>
 
-<div id="playlist-create" class="modal fade" >
-    <div id="dialogContent" class="modal-dialog modal-sm">        
+<div id="playlist-create" class="modal fade">
+    <div id="dialogContent" class="modal-dialog modal-sm">
     </div>
 </div>
 

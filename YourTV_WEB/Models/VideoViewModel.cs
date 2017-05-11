@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using YourTV_BLL.DTO;
+using System.ComponentModel.DataAnnotations;
 
-namespace YourTV_BLL.DTO
+namespace YourTV_WEB.Models
 {
-    public class VideoDTO
+    public class VideoViewModel
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public int Views { get; set; }
         public int Duration { get; set; }
@@ -16,6 +18,6 @@ namespace YourTV_BLL.DTO
         public string ApplicationUserId { get; set; }
         public IEnumerable<CategoryDTO> Categories { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
-        public IEnumerable<UserDTO> UsersLiked { get; set; }
+        public IEnumerable<UserDTO> UserLiked { get; set; }
     }
 }

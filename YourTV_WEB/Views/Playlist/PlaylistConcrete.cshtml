@@ -5,8 +5,12 @@
 }
 
 @Styles.Render("~/Content/Site.css")
+@Styles.Render("~/Content/css")
 
 <h2>@Model.Name</h2>
+<div class="row line-container">
+    @Html.ActionLink("Add", "AddingVideo", new { }, new { @class = "btn btn-default video-create", id = "btn-create-video" })
+</div>
 <div class="row  line-container">
     <img class="col-md-2 " src="~/Content/Images/DefaultPlaylist.png" alt="@Model.Name" />
     <p class="col-md-10">@Model.Description</p>
@@ -15,10 +19,13 @@
     @foreach (var item in Model.Videos)
     {
         <a href=@Url.Action("PlayVideo", "Video", new { Id = item.Id } )>
-            <div class="col-md-3" class="fixed-box">
+            <div class="col-md-3 fixed-box">
                 <img class="video-image" src="~/Content/Images/DefaultVideo.png" alt="@item.Name" />
                 <p>@item.Name</p>
             </div>
         </a>
     }
 </div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
