@@ -13,6 +13,8 @@ build/
 **/[Ss]cripts/respond*.js
 **/[Ff]onts
 **/[Kk]endo
+[Yy]ourTV_WEB/[Ii]mages/
+[Vv]ideos/
 .vs
 *.suo
 *.user
