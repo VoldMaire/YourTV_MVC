@@ -94,7 +94,7 @@ namespace YourTV_BLL.Services
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Playlist, PlaylistDTO>();
+                cfg.CreateMap<Playlist, PlaylistDTO>().ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos.Where(v => !v.IsDeleted)));
                 cfg.CreateMap<Video, VideoDTO>();
             });
             var mapper = config.CreateMapper();

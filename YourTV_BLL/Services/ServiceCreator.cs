@@ -14,5 +14,10 @@ namespace YourTV_BLL.Services
         {
             return new PlaylistService(new IdentityUnitOfWork(connection));
         }
+
+        public IVideoService CreateVideoService(string connection)
+        {
+            return new VideoService(new IdentityUnitOfWork(connection));
+        }
     }
 }

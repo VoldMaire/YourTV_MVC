@@ -7,12 +7,9 @@ using YourTV_WEB.Models;
 using YourTV_BLL.DTO;
 using System.Security.Claims;
 using YourTV_BLL.Interfaces;
-using YourTV_BLL.Infrastructure;
 using System.Configuration;
-using System.Text;
 using Microsoft.AspNet.Identity;
 using YourTV_BLL.Services;
-using System.IO;
 
 namespace YourTV_WEB.Controllers
 {
@@ -92,45 +89,6 @@ namespace YourTV_WEB.Controllers
             if (modelPlaylist == null)
                 return HttpNotFound();
             return View(modelPlaylist);
-        }
-
-        [Authorize]
-        public ActionResult AddingVideo()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public JsonResult UploadVideo(HttpPostedFileBase inputFile)
-        {
-            bool isSavedSuccessfully = true;
-            string fileName = "";
-            foreach (string name in Request.Files)
-            {
-                HttpPostedFileBase file = Request.Files[name];
-                fileName = file.FileName;
-                if (file != null && file.ContentLength > 0)
-                {
-
-                    var originalDirectory = new DirectoryInfo(string.Format("{0}Videos\\" + User.Identity.Name + "\\" + "PlaylistName" , Server.MapPath(@"\")));
-                    string pathString = Path.Combine(originalDirectory.ToString(), "imagepath");
-                    var fileName1 = Path.GetFileName(file.FileName);
-                    bool isExists = Directory.Exists(pathString);
-                    if (!isExists)
-                        Directory.CreateDirectory(pathString);
-                    var path = string.Format("{0}\\{1}", pathString, file.FileName);
-                    file.SaveAs(path);
-                }
-            }
-            if (isSavedSuccessfully)
-            {
-                return Json(new { Message = fileName });
-            }
-            else
-            {
-                return Json(new { Message = "Error in saving file" });
-            }
         }
     }
 }

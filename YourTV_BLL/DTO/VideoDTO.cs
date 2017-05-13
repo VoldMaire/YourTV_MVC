@@ -13,6 +13,7 @@ namespace YourTV_BLL.DTO
         public int Views { get; set; }
         public int Duration { get; set; }
         public string Path { get; set; }
+        public string Description { get; set; }
         public string ApplicationUserId { get; set; }
         public IEnumerable<CategoryDTO> Categories { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }

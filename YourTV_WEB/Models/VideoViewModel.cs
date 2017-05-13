@@ -4,20 +4,35 @@ using System.Linq;
 using System.Web;
 using YourTV_BLL.DTO;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace YourTV_WEB.Models
 {
     public class VideoViewModel
     {
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage ="Can't create video with empty name.")]
+
         public string Name { get; set; }
+
         public int Views { get; set; }
+
         public int Duration { get; set; }
+
         public string Path { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public string FileName { get; set; }
+
         public string ApplicationUserId { get; set; }
+
+        public string Description { get; set; }
+
         public IEnumerable<CategoryDTO> Categories { get; set; }
+
         public IEnumerable<CommentDTO> Comments { get; set; }
+
         public IEnumerable<UserDTO> UserLiked { get; set; }
     }
 }

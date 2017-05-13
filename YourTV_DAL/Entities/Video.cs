@@ -16,6 +16,10 @@ namespace YourTV_DAL.Entities
 
         public string Duration { get; set; }
 
+        public string Description { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

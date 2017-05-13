@@ -28,11 +28,11 @@ namespace YourTV_WEB
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
-                        "~/Scripts/dropzone/dropzone.min.js"));
+                        "~/Scripts/dropzone/dropzone.js"));
 
             bundles.Add(new StyleBundle("~/Content/dropzonecss").Include(
-                        "~/Content/dropzonestyles/basic.min.css",
-                        "~/Content/dropzonestyles/dropzone.min.css"));
+                        "~/Content/dropzonestyles/basic.css",
+                        "~/Content/dropzonestyles/dropzone.css"));
         }
     }
 }
