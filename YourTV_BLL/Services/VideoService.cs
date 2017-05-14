@@ -23,9 +23,19 @@ namespace YourTV_BLL.Services
             Database = uow;
         }
 
-        //public OperationDetails AddVideo(VideoDTO video)
-        //{
-        //    Vide
-        //}
+        public OperationDetails AddVideo(VideoDTO videoDto)
+        {
+            Video video = getVideoFromDTO()
+        }
+
+        private Video getVideoFromDTO(VideoDTO videotDto)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<VideoDTO, Video>();
+            });
+            var mapper = config.CreateMapper();
+            return mapper.Map<VideoDTO, Video>(videotDto);
+        }
     }
 }
