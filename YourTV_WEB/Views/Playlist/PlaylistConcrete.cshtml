@@ -12,7 +12,7 @@
     @using (Html.BeginForm("AddingVideo", "Video", FormMethod.Post))
     {
         <input type="hidden" name="playlistId" value="@Model.Id" />
-        <input type="submit" class = "btn btn-default video-create" id = "btn-create-video" />
+        <input type="submit" value="Add video" class = "btn btn-default video-create" id = "btn-create-video" />
     }
 </div>
 <div class="row  line-container">
@@ -22,8 +22,8 @@
 <div class="row">
     @foreach (var item in Model.Videos)
     {
-        <a href=@Url.Action("PlayVideo", "Video", new { Id = item.Id } )>
-            <div class="col-md-3 fixed-box">
+        <a href=@Url.Action("VideoConcrete", "Video", new { videoId = item.Id } )>
+            <div class="col-md-3">
                 <img class="video-image" src="~/Content/Images/DefaultVideo.png" alt="@item.Name" />
                 <p>@item.Name</p>
             </div>

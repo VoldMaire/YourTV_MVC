@@ -11,6 +11,7 @@ using YourTV_BLL.Services;
 using System.Configuration;
 using YourTV_BLL.Infrastructure;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace YourTV_WEB.Controllers
 {
@@ -92,12 +93,13 @@ namespace YourTV_WEB.Controllers
                 {
                     using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
                     {
-                        string virtualDestPath = "~/Videos/" + User.Identity.Name + "/" + model.PlaylistId + "/";
+                        string virtualDestPath = "~/Content/Videos/" + User.Identity.Name + "/" + model.PlaylistId + "/";
                         string destPath = Server.MapPath(virtualDestPath);
+                        string hashedFileName = model.FileName.GetHashCode() + DateTime.Now.Ticks + ".mp4"; ;
                         bool isExists = Directory.Exists(destPath);
                         if (!isExists)
                             Directory.CreateDirectory(destPath);
-                        destPath += model.FileName;
+                        destPath += hashedFileName;
                         System.IO.File.Copy(srcPath, destPath);
                         System.IO.File.Delete(srcPath);
 
@@ -106,7 +108,7 @@ namespace YourTV_WEB.Controllers
                         videoDto.IsDeleted = false;
                         videoDto.Description = model.Description;
                         videoDto.UserName = User.Identity.Name;
-                        videoDto.Path = virtualDestPath;
+                        videoDto.Path = virtualDestPath.Substring(1) + hashedFileName;
                         videoDto.PlaylistId = model.PlaylistId;
                         OperationDetails operationDetail = await videoService.AddVideo(videoDto);
                         return RedirectToAction("PlaylistConcrete", "Playlist", new { playlistId = model.PlaylistId });
@@ -125,9 +127,24 @@ namespace YourTV_WEB.Controllers
         }
 
         [Authorize]
-        public ActionResult VideoConcrete()
+        public ActionResult VideoConcrete(int videoId)
         {
-            return View();
+            using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
+            {
+                VideoDTO videoDto = videoService.GetVideo(videoId);
+                if (videoDto != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<VideoDTO, VideoViewModel>();
+                    });
+                    var mapper = config.CreateMapper();
+                    VideoViewModel videoVM = new VideoViewModel();
+                    videoVM = mapper.Map<VideoDTO, VideoViewModel>(videoDto);
+                    return View(videoVM);
+                }                
+            }
+            return HttpNotFound();
         }
     }
 }

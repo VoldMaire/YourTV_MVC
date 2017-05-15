@@ -12,5 +12,6 @@ namespace YourTV_BLL.Interfaces
         Task<OperationDetails> UpdateVideo(VideoDTO videoDto);
         Task<OperationDetails> AddLike(int videoId, string userId);
         Task<OperationDetails> AddComment(CommentDTO commentDto);
+        VideoDTO GetVideo(int videoId);
     }
 }

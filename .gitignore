@@ -16,6 +16,7 @@ build/
 **/[Kk]endo
 [Yy]ourTV_WEB/[Ii]mages/
 [Vv]ideos/
+[Cc]ontent/[Vv]ideos/
 .vs
 *.suo
 *.user

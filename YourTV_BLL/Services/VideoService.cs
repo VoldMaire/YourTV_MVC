@@ -102,6 +102,24 @@ namespace YourTV_BLL.Services
             return new OperationDetails(true, "Adding of comment was successfully.", "");
         }
 
+        public VideoDTO GetVideo(int videoId)
+        {
+            Video video = Database.Videos.Get(videoId);
+            if (video != null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Video, VideoDTO>();
+                });
+                var mapper = config.CreateMapper();
+                VideoDTO videoDto = new VideoDTO();
+                videoDto = mapper.Map<Video, VideoDTO>(video);
+                return videoDto;
+            }
+            else
+                return null;
+        }
+
         public void Dispose()
         {
             Database.Dispose();

@@ -65,7 +65,7 @@ namespace YourTV_WEB.Controllers
                     await playlistService.CreateAsync(playlistDto);
                     playlistDto = playlistService.GetLastByName(model.Name);
                 }
-                return RedirectToAction("PlaylistConcrete", "Playlist", new { id = playlistDto.Id });
+                return RedirectToAction("PlaylistConcrete", "Playlist", new { playlistId = playlistDto.Id });
             }
             ModelState.AddModelError("", "Can't create such playlist.");
             return PartialView(model);

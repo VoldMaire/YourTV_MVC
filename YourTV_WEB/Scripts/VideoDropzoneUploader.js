@@ -1,12 +1,12 @@
 ﻿var dropZ = Dropzone.options.dropzoneForm = {
     maxFiles: 1,
     maxFilesize: 1000,
+    acceptedFiles: "video/mp4",
     init: function () {
         this.on("maxfilesexceeded", function (file) {
             this.removeAllFiles();
             this.addFile(file);
-        });
-        
+        });        
 
         this.on("addedfile", function (file) {
             var removeButton = Dropzone.createElement("<button>Remove file</button>");
