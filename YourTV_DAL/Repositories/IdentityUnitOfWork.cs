@@ -86,24 +86,10 @@ namespace YourTV_DAL.Repositories
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        private bool disposed = false;
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    userManager.Dispose();
-                    roleManager.Dispose();
-                    clientManager.Dispose();
-                    db.Dispose();
-                }
-                this.disposed = true;
-            }
+            userManager.Dispose();
+            roleManager.Dispose();
+            clientManager.Dispose();
+            db.Dispose();
         }
     }
 }

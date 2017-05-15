@@ -9,7 +9,11 @@
 
 <h2>@Model.Name</h2>
 <div class="row line-container">
-    @Html.ActionLink("Add", "AddingVideo","Video",new { }, new { @class = "btn btn-default video-create", id = "btn-create-video" })
+    @using (Html.BeginForm("AddingVideo", "Video", FormMethod.Post))
+    {
+        <input type="hidden" name="playlistId" value="@Model.Id" />
+        <input type="submit" class = "btn btn-default video-create" id = "btn-create-video" />
+    }
 </div>
 <div class="row  line-container">
     <img class="col-md-2 " src="~/Content/Images/DefaultPlaylist.png" alt="@Model.Name" />

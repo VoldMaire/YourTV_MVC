@@ -27,6 +27,7 @@
                         @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control modal-input" } })
                         @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                         @Html.LabelFor(m => m.Description, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(m=>m.PlaylistId)
                         <textarea class="form-control textarea-input" name="Description"></textarea>
                         @Html.EditorFor(m=>m.FileName)
                         <input type="submit"  class="modal-input btn-default"  value="Save" />

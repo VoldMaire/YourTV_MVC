@@ -23,19 +23,88 @@ namespace YourTV_BLL.Services
             Database = uow;
         }
 
-        public OperationDetails AddVideo(VideoDTO videoDto)
+        public async Task<VideoDTO> GetVideoById()
         {
-            Video video = getVideoFromDTO()
+            throw new NotImplementedException();
         }
 
-        private Video getVideoFromDTO(VideoDTO videotDto)
+        public async Task<OperationDetails> AddVideo(VideoDTO videoDto)
         {
-            var config = new MapperConfiguration(cfg =>
+            if(videoDto == null)
+                throw new ArgumentNullException("Can't update video with null value.");
+
+            ApplicationUser user = await Database.UserManager.FindByNameAsync(videoDto.UserName);
+            Video video = new Video();
+            video.Name = videoDto.Name;
+            video.ApplicationUserId = user.Id;
+            video.Path = videoDto.Path;
+            video.Description = videoDto.Description;
+            video.Duration = videoDto.Duration;
+            video.PlaylistId = videoDto.PlaylistId;
+            Database.Videos.Create(video);
+            await Database.SaveAsync();
+            return new OperationDetails(true, "Adding was successful.", "");
+        }
+
+        public async Task<OperationDetails> UpdateVideo(VideoDTO videoDto)
+        {
+            if(videoDto == null)
+                throw new ArgumentNullException("Can't update video with null value.");
+
+            Video video = Database.Videos.GetAll().Where(v=>v.Path == videoDto.Path).First();
+            if (video != null)
             {
-                cfg.CreateMap<VideoDTO, Video>();
-            });
-            var mapper = config.CreateMapper();
-            return mapper.Map<VideoDTO, Video>(videotDto);
+                video.Name = videoDto.Name;
+                video.PlaylistId = videoDto.PlaylistId;
+                video.IsDeleted = videoDto.IsDeleted;
+                video.Description = videoDto.Description;
+                Database.Videos.Update(video);
+                await Database.SaveAsync();
+                return new OperationDetails(true, "Updated successfully.", "");
+            }
+            else return new OperationDetails(false, "Such video doesn't exist", "Path");
+        }
+
+        public async Task<OperationDetails> AddLike(int videoId, string userId)
+        {
+            ApplicationUser user = await Database.UserManager.FindByIdAsync(userId);
+            Video video = await Database.Videos.GetAsync(videoId);
+            if (user == null)
+                return new OperationDetails(false, "Such user doesn't exist.", "ApplicationUserId");
+            if (video == null)
+                return new OperationDetails(false, "Video with this id doesn't exist.", "Id");
+
+            video.UsersLiked.Add(user);
+            Database.Videos.Update(video);
+            await Database.SaveAsync();
+            return new OperationDetails(true, "Liked was successfully", "");
+        }
+
+        public async Task<OperationDetails> AddComment(CommentDTO commentDto)
+        {
+            if (commentDto == null)
+                throw new ArgumentNullException("Can't add comment with null value.");
+
+            ApplicationUser user = await Database.UserManager.FindByIdAsync(commentDto.ApplicationUserId);
+            Video video = await Database.Videos.GetAsync(commentDto.VideoId);
+            if (video == null)
+                return new OperationDetails(false, "This video doesn't exist.", "VideoId");
+            if (user == null)
+                return new OperationDetails(false, "This user doesn't exist.", "UserId");
+
+            Comment comment = new Comment();
+            comment.Text = commentDto.Text;
+            comment.ApplicationUserId = commentDto.ApplicationUserId;
+            Database.Comments.Create(comment);
+            video.Comments.Add(comment);
+            Database.Videos.Update(video);
+            await Database.SaveAsync();
+            return new OperationDetails(true, "Adding of comment was successfully.", "");
+        }
+
+        public void Dispose()
+        {
+            Database.Dispose();
         }
     }
 }

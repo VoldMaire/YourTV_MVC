@@ -13,12 +13,11 @@ namespace YourTV_WEB.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Can't create video with empty name.")]
-
         public string Name { get; set; }
 
         public int Views { get; set; }
 
-        public int Duration { get; set; }
+        public string Duration { get; set; }
 
         public string Path { get; set; }
 
@@ -26,6 +25,9 @@ namespace YourTV_WEB.Models
         public string FileName { get; set; }
 
         public string ApplicationUserId { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public int PlaylistId { get; set; }
 
         public string Description { get; set; }
 

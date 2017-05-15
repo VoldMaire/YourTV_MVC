@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity;
 using YourTV_BLL.Interfaces;
 using Microsoft.Owin.Security.DataProtection;
 using Microsoft.AspNet.Identity.Owin;
+using System.Web;
+using System.Configuration;
 
 [assembly: OwinStartup(typeof(YourTV_WEB.App_Start.Startup))]
 

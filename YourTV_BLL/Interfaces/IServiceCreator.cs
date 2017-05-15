@@ -10,5 +10,6 @@ namespace YourTV_BLL.Interfaces
     {
         IUserService CreateUserService(string connection);
         IPlaylistService CreatePlaylistService(string connection);
+        IVideoService CreateVideoService(string connection);
     }
 }

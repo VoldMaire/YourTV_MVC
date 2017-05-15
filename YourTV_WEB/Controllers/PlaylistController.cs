@@ -22,6 +22,7 @@ namespace YourTV_WEB.Controllers
                 return ConfigurationManager.AppSettings["Connection"];
             }
         }
+
         private IUserService UserService
         {
             get
@@ -71,13 +72,13 @@ namespace YourTV_WEB.Controllers
         }
 
         [Authorize]
-        public ActionResult PlaylistConcrete(int id)
+        public ActionResult PlaylistConcrete(int playlistId)
         {
             PlaylistConcreteViewModel modelPlaylist = new PlaylistConcreteViewModel();
             IServiceCreator serviceCreator = new ServiceCreator();
             using (IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
             {
-                PlaylistDTO playlistDto = playlistService.GetById(id);
+                PlaylistDTO playlistDto = playlistService.GetById(playlistId);
                 if(playlistDto != null)
                 {
                     modelPlaylist.Id = playlistDto.Id;
