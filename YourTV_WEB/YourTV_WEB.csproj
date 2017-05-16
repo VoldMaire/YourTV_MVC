@@ -301,7 +301,9 @@
     <Content Include="Views\Playlist\AddingPlaylist.cshtml" />
     <Content Include="Views\Video\AddingVideo.cshtml" />
     <Content Include="Views\Video\SaveVideo.cshtml" />
+    <Content Include="Views\Video\LikesUI.cshtml" />
     <Content Include="Views\Video\VideoConcrete.cshtml" />
+    <Content Include="Views\Video\Video.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

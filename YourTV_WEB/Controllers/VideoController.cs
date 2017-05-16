@@ -132,19 +132,40 @@ namespace YourTV_WEB.Controllers
             using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
             {
                 VideoDTO videoDto = videoService.GetVideo(videoId);
-                if (videoDto != null)
+                if (videoDto.ApplicationUser.UserName == User.Identity.Name)
                 {
-                    var config = new MapperConfiguration(cfg =>
+                    if (videoDto != null)
                     {
-                        cfg.CreateMap<VideoDTO, VideoViewModel>();
-                    });
-                    var mapper = config.CreateMapper();
-                    VideoViewModel videoVM = new VideoViewModel();
-                    videoVM = mapper.Map<VideoDTO, VideoViewModel>(videoDto);
-                    return View(videoVM);
-                }                
+                        var config = new MapperConfiguration(cfg =>
+                        {
+                            cfg.CreateMap<VideoDTO, VideoViewModel>();
+                        });
+                        var mapper = config.CreateMapper();
+                        VideoViewModel videoVM = new VideoViewModel();
+                        videoVM = mapper.Map<VideoDTO, VideoViewModel>(videoDto);
+                        UserDTO user = videoDto.UsersLiked.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                        if (user != null)
+                            videoVM.Liked = true;
+                        else
+                            videoVM.Liked = false;
+                        videoVM.LikesCount = videoDto.UsersLiked.Count();
+                        return View(videoVM);
+                    }
+                }
             }
             return HttpNotFound();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddLike(int videoId)
+        {
+            using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
+            {
+                await videoService.AddLike(videoId, User.Identity.Name);
+                return PartialView();
+            }
         }
     }
 }

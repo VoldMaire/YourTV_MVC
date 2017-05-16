@@ -49,8 +49,11 @@ namespace YourTV_BLL.Services
             IEnumerable<PlaylistDTO> playlistsDto;
             var config = new MapperConfiguration(cfg =>
             {
-            cfg.CreateMap<Playlist, PlaylistDTO>();
-            cfg.CreateMap<Video, VideoDTO>();
+                cfg.CreateMap<Playlist, PlaylistDTO>();
+                cfg.CreateMap<Video, VideoDTO>();
+                cfg.CreateMap<ApplicationUser, UserDTO>()
+                       .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ClientProfile.Name))
+                       .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.ClientProfile.Address)); ;
             });
             var mapper = config.CreateMapper();
             var userPlaylists = Database.Playlists.GetAll().Where(p => p.ApplicationUserId == userId).ToList();
@@ -85,6 +88,7 @@ namespace YourTV_BLL.Services
             {
                 cfg.CreateMap<PlaylistDTO, Playlist>();
                 cfg.CreateMap<VideoDTO, Video>();
+                cfg.CreateMap<UserDTO, ApplicationUser>();
             });
             var mapper = config.CreateMapper();
             return mapper.Map<PlaylistDTO, Playlist>(playlistDto);
@@ -95,6 +99,7 @@ namespace YourTV_BLL.Services
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Playlist, PlaylistDTO>().ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos.Where(v => !v.IsDeleted)));
+                cfg.CreateMap<ApplicationUser, UserDTO>();
                 cfg.CreateMap<Video, VideoDTO>();
             });
             var mapper = config.CreateMapper();

@@ -40,6 +40,7 @@ namespace YourTV_WEB.Controllers
             {
                 viewModel.Playlists = playlistService.GetAllByUser(User.Identity.GetUserId());
             }
+
             return View(viewModel);
         }
 
@@ -78,17 +79,22 @@ namespace YourTV_WEB.Controllers
             IServiceCreator serviceCreator = new ServiceCreator();
             using (IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
             {
-                PlaylistDTO playlistDto = playlistService.GetById(playlistId);
+                PlaylistDTO playlistDto = playlistService.GetById(playlistId);                
                 if(playlistDto != null)
                 {
+                    if (playlistDto.ApplicationUser.UserName != User.Identity.Name)
+                        return HttpNotFound();
+
                     modelPlaylist.Id = playlistDto.Id;
                     modelPlaylist.Name = playlistDto.Name;
                     modelPlaylist.Description = playlistDto.Description;
                     modelPlaylist.Videos = playlistDto.Videos;
                 }
             }
+
             if (modelPlaylist == null)
                 return HttpNotFound();
+
             return View(modelPlaylist);
         }
     }

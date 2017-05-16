@@ -23,11 +23,6 @@ namespace YourTV_BLL.Services
             Database = uow;
         }
 
-        public async Task<VideoDTO> GetVideoById()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<OperationDetails> AddVideo(VideoDTO videoDto)
         {
             if(videoDto == null)
@@ -51,7 +46,7 @@ namespace YourTV_BLL.Services
             if(videoDto == null)
                 throw new ArgumentNullException("Can't update video with null value.");
 
-            Video video = Database.Videos.GetAll().Where(v=>v.Path == videoDto.Path).First();
+            Video video = Database.Videos.GetAll().Where(v=>v.Path == videoDto.Path).FirstOrDefault();
             if (video != null)
             {
                 video.Name = videoDto.Name;
@@ -65,9 +60,9 @@ namespace YourTV_BLL.Services
             else return new OperationDetails(false, "Such video doesn't exist", "Path");
         }
 
-        public async Task<OperationDetails> AddLike(int videoId, string userId)
+        public async Task<OperationDetails> AddLike(int videoId, string userName)
         {
-            ApplicationUser user = await Database.UserManager.FindByIdAsync(userId);
+            ApplicationUser user = await Database.UserManager.FindByNameAsync(userName);
             Video video = await Database.Videos.GetAsync(videoId);
             if (user == null)
                 return new OperationDetails(false, "Such user doesn't exist.", "ApplicationUserId");
@@ -110,6 +105,9 @@ namespace YourTV_BLL.Services
                 var config = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<Video, VideoDTO>();
+                    cfg.CreateMap<ApplicationUser, UserDTO>()
+                       .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ClientProfile.Name))
+                       .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.ClientProfile.Address));
                 });
                 var mapper = config.CreateMapper();
                 VideoDTO videoDto = new VideoDTO();

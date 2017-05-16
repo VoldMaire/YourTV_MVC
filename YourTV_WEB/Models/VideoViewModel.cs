@@ -31,10 +31,12 @@ namespace YourTV_WEB.Models
 
         public string Description { get; set; }
 
+        public bool Liked { get; set; }
+
+        public int LikesCount { get; set; }
+
         public IEnumerable<CategoryDTO> Categories { get; set; }
 
         public IEnumerable<CommentDTO> Comments { get; set; }
-
-        public IEnumerable<UserDTO> UserLiked { get; set; }
     }
 }

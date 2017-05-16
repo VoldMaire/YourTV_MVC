@@ -15,6 +15,7 @@ namespace YourTV_BLL.DTO
         public string Path { get; set; }
         public string Description { get; set; }
         public string ApplicationUserId { get; set; }
+        public UserDTO ApplicationUser { get; set; }
         public string UserName { get; set; }
         public bool IsDeleted { get; set; }
         public int PlaylistId { get; set; }
