@@ -75,6 +75,21 @@ namespace YourTV_BLL.Services
             return new OperationDetails(true, "Liked was successfully", "");
         }
 
+        public async Task<OperationDetails> DeleteLike(int videoId, string userName)
+        {
+            ApplicationUser user = await Database.UserManager.FindByNameAsync(userName);
+            Video video = await Database.Videos.GetAsync(videoId);
+            if (user == null)
+                return new OperationDetails(false, "Such user doesn't exist.", "ApplicationUserId");
+            if (video == null)
+                return new OperationDetails(false, "Video with this id doesn't exist.", "Id");
+
+            video.UsersLiked.Remove(user);
+            Database.Videos.Update(video);
+            await Database.SaveAsync();
+            return new OperationDetails(true, "Liked was successfully", "");
+        }
+
         public async Task<OperationDetails> AddComment(CommentDTO commentDto)
         {
             if (commentDto == null)
@@ -97,6 +112,31 @@ namespace YourTV_BLL.Services
             return new OperationDetails(true, "Adding of comment was successfully.", "");
         }
 
+        public IEnumerable<VideoDTO> GetAllVideos()
+        {
+            IEnumerable<Video> videos = Database.Videos.GetAll().Where(v=>!v.IsDeleted).ToList();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Video, VideoDTO>();
+                cfg.CreateMap<ApplicationUser, UserDTO>()
+                       .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ClientProfile.Name))
+                       .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.ClientProfile.Address));
+            });
+            var mapper = config.CreateMapper();
+            IEnumerable<VideoDTO> videosDto = new List<VideoDTO>();
+            videosDto = mapper.Map<IEnumerable<Video>, IEnumerable<VideoDTO>>(videos);
+            return videosDto;
+        }
+
+        public async Task<OperationDetails> DeleteVideo(int videoId)
+        {
+            Video video = Database.Videos.Get(videoId);
+            video.IsDeleted = true;
+            Database.Videos.Update(video);
+            await Database.SaveAsync();
+            return new OperationDetails(true, "Deleting was successfull", "");
+        }
+
         public VideoDTO GetVideo(int videoId)
         {
             Video video = Database.Videos.Get(videoId);
@@ -110,6 +150,8 @@ namespace YourTV_BLL.Services
                        .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.ClientProfile.Address));
                 });
                 var mapper = config.CreateMapper();
+                if (video.IsDeleted)
+                    return null;
                 VideoDTO videoDto = new VideoDTO();
                 videoDto = mapper.Map<Video, VideoDTO>(video);
                 return videoDto;

@@ -14,8 +14,7 @@
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @name = "Name" })
             <p class="text-info">Description</p>
             <textarea class="form-control modal-input" name="Description"></textarea>
-            <input type="submit" class="modal-input btn-default" value="Create" />
+            <input type="submit" id="confirm-creating" class="modal-input btn-default" value="Create" />
         }
     </div>
 </div>
-

@@ -10,51 +10,31 @@
         display: none;
     }
 </style>
-
-<div class="row">
-    <video width="700" controls>
-        <source src="@Model.Path" type="video/mp4">
-    </video>
-</div>
-<p class="invisible" id="like-state">@Model.Liked</p>
-<div class="row like-container">
-    @using (Ajax.BeginForm("AddLike", "Video", new AjaxOptions { UpdateTargetId = "count" }, new { id = "empty-heart" }))
-    {
-        @Html.EditorFor(m => m.Id, new { value = Model.Id });
-        <input type="image" width="40" id="empty-like" name="submit" src="~/Content/Images/LikeEmpty.png" border="0" alt="Submit" />
-    }
-    @using (Ajax.BeginForm("RemoveLike", "Video", new AjaxOptions { UpdateTargetId = "count" }, new { id = "full-heart" } ))
-    {
-        @Html.EditorFor(m => m.Id, new { value = Model.Id });
-        <input type="image" width="40" id="full-like" name="submit" src="~/Content/Images/LikeFull.png" border="0" alt="Submit" />
-    }
-    <div id="count">
-        <p>
-            @Model.LikesCount
-        </p>
+<div>
+    <div class="row">
+        <video width="700" height="350" controls>
+            <source src="@Model.Path" type="video/mp4">
+        </video>
+    </div>
+    <p class="invisible" id="like-state">@Model.Liked</p>
+    <div class="row like-container">
+        @Html.DisplayFor(m => m.Description, new { @class = "text-info col-md-5" })
+        @using (Ajax.BeginForm("ToggleLike", "Video", new AjaxOptions { UpdateTargetId = "count" }, new { id = "like-state-sender", @class = "col-md-1" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.EditorFor(m => m.Id, new { value = Model.Id });
+            @Html.EditorFor(m => m.Liked);
+            <input type="image" width="40" id="empty-like" name="submit" src="~/Content/Images/LikeEmpty.png" border="0" alt="Submit" />
+            <input type="image" width="40" id="full-like" name="submit" src="~/Content/Images/LikeFull.png" border="0" alt="Submit" />
+        }
+        <div id="count" class="col-md-1">
+            <p style="font-size:26px;">
+                @Model.LikesCount
+            </p>
+        </div>
     </div>
 </div>
-<div class="row">
-    @Html.DisplayFor(m => m.Description, new { @class = "text-info" })
-</div>
+
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/unobtrusiveajax")
-<script>
-    if ($("#like-state").text === "true") {
-        $("#full-heart").removeClass("invisible");
-        $("#empty-heart").addClass("invisible");
-    }
-    else {
-        $("#full-heart").addClass("invisible");
-        $("#empty-heart").removeClass("invisible");
-    }
-
-        $("#empty-heart").click(function () {
-            $("#empty-heart").toggleClass("invisible");
-            $("#full-heart").toggleClass("invisible");
-        });
-        $("#full-heart").click(function () {
-            $("#empty-heart").toggleClass("invisible");
-            $("#full-heart").toggleClass("invisible");
-        });
-</script>
+@Scripts.Render("~/Scripts/likesScript.js")

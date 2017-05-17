@@ -132,25 +132,22 @@ namespace YourTV_WEB.Controllers
             using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
             {
                 VideoDTO videoDto = videoService.GetVideo(videoId);
-                if (videoDto.ApplicationUser.UserName == User.Identity.Name)
+                if (videoDto != null)
                 {
-                    if (videoDto != null)
+                    var config = new MapperConfiguration(cfg =>
                     {
-                        var config = new MapperConfiguration(cfg =>
-                        {
-                            cfg.CreateMap<VideoDTO, VideoViewModel>();
-                        });
-                        var mapper = config.CreateMapper();
-                        VideoViewModel videoVM = new VideoViewModel();
-                        videoVM = mapper.Map<VideoDTO, VideoViewModel>(videoDto);
-                        UserDTO user = videoDto.UsersLiked.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-                        if (user != null)
-                            videoVM.Liked = true;
-                        else
-                            videoVM.Liked = false;
-                        videoVM.LikesCount = videoDto.UsersLiked.Count();
-                        return View(videoVM);
-                    }
+                        cfg.CreateMap<VideoDTO, VideoViewModel>();
+                    });
+                    var mapper = config.CreateMapper();
+                    VideoViewModel videoVM = new VideoViewModel();
+                    videoVM = mapper.Map<VideoDTO, VideoViewModel>(videoDto);
+                    UserDTO user = videoDto.UsersLiked.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                    if (user != null)
+                        videoVM.Liked = true;
+                    else
+                        videoVM.Liked = false;
+                    videoVM.LikesCount = videoDto.UsersLiked.Count();
+                    return View(videoVM);
                 }
             }
             return HttpNotFound();
@@ -159,13 +156,49 @@ namespace YourTV_WEB.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddLike(int videoId)
+        public async Task<string> ToggleLike(VideoViewModel video)
         {
             using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
             {
-                await videoService.AddLike(videoId, User.Identity.Name);
-                return PartialView();
+                if (video.Liked)
+                {
+                    await videoService.AddLike(video.Id, User.Identity.Name);
+                }
+                else
+                {
+                    await videoService.DeleteLike(video.Id, User.Identity.Name);
+                }
+                int likesCount = videoService.GetVideo(video.Id).UsersLiked.Count();
+                return "<p style=\"font-size:26px;\">" + likesCount + "</p>";
             }
         }
+
+        [Authorize(Roles ="admin")]
+        public ActionResult VideoDeleting()
+        {
+            IEnumerable<VideoViewModel> model;
+            using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
+            {
+                IEnumerable<VideoDTO> videosDto = videoService.GetAllVideos();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<VideoDTO, VideoViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                model = mapper.Map<IEnumerable<VideoDTO>, IEnumerable<VideoViewModel>>(videosDto);
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "admin")]
+        public async  Task<ActionResult> DeleteVideo(int videoId)
+        {
+            using (IVideoService videoService = ServiceCreator.CreateVideoService(Connection))
+            {
+                await videoService.DeleteVideo(videoId);
+            }
+            return RedirectToAction("VideoDeleting");
+        }
+
     }
 }

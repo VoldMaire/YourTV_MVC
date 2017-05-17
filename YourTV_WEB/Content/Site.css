@@ -43,7 +43,7 @@ input.modal-input{
     width: 100%;
 }
 
-textarea.textarea-input{
+.textarea-input{
     margin-top: 20px;
     margin-bottom: 30px;
     width: 100%;
@@ -57,4 +57,16 @@ input[type="submit"].modal-input{
 
 .video-image{
     width:200px;
+}
+
+.navbar-inverse .navbar-nav > li > a{ 
+    color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover{ 
+    color: #F0E68C;
+}
+
+.navbar-brand:hover{
+    color: #F0E68C!important;
 }

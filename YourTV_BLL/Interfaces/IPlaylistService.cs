@@ -12,5 +12,6 @@ namespace YourTV_BLL.Interfaces
         PlaylistDTO GetLastByName(string name);
         PlaylistDTO GetById(int id);
         Task<OperationDetails> CreateAsync(PlaylistDTO playlistDto);
+        Task<OperationDetails> DeletePlaylist(int playlstId);
     }
 }

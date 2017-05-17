@@ -10,6 +10,7 @@ namespace YourTV_WEB.Models
 {
     public class VideoViewModel
     {
+        [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Can't create video with empty name.")]
@@ -31,6 +32,7 @@ namespace YourTV_WEB.Models
 
         public string Description { get; set; }
 
+        [HiddenInput(DisplayValue = false)]
         public bool Liked { get; set; }
 
         public int LikesCount { get; set; }

@@ -77,6 +77,14 @@ namespace YourTV_BLL.Services
             return new OperationDetails(false, "Such playlist already exist. Can't add it again.", "");
         }
 
+        public async Task<OperationDetails> DeletePlaylist(int playlstId)
+        {
+            
+            Database.Playlists.Delete(playlstId);
+            await Database.SaveAsync();
+            return new OperationDetails(true, "Success", "");
+        }
+
         public void Dispose()
         {
             Database.Dispose();

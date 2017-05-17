@@ -10,6 +10,7 @@ using YourTV_BLL.Interfaces;
 using System.Configuration;
 using Microsoft.AspNet.Identity;
 using YourTV_BLL.Services;
+using YourTV_BLL.Infrastructure;
 
 namespace YourTV_WEB.Controllers
 {
@@ -31,12 +32,19 @@ namespace YourTV_WEB.Controllers
             }
         }
 
+        private IServiceCreator ServiceCreator
+        {
+            get
+            {
+                return new ServiceCreator();
+            }
+        }
+
         [Authorize]
         public ActionResult Playlists()
         {
             PlaylistsViewModel viewModel = new PlaylistsViewModel();
-            ServiceCreator serviceCreator = new ServiceCreator();
-            using (IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
+            using (IPlaylistService playlistService = ServiceCreator.CreatePlaylistService(Connection))
             {
                 viewModel.Playlists = playlistService.GetAllByUser(User.Identity.GetUserId());
             }
@@ -60,8 +68,7 @@ namespace YourTV_WEB.Controllers
                 PlaylistDTO playlistDto = new PlaylistDTO { Name = model.Name,
                                                          Description = model.Description,
                                                          ApplicationUserId = User.Identity.GetUserId() };
-                IServiceCreator serviceCreator = new ServiceCreator();
-                using(IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
+                using(IPlaylistService playlistService = ServiceCreator.CreatePlaylistService(Connection))
                 {
                     await playlistService.CreateAsync(playlistDto);
                     playlistDto = playlistService.GetLastByName(model.Name);
@@ -76,8 +83,7 @@ namespace YourTV_WEB.Controllers
         public ActionResult PlaylistConcrete(int playlistId)
         {
             PlaylistConcreteViewModel modelPlaylist = new PlaylistConcreteViewModel();
-            IServiceCreator serviceCreator = new ServiceCreator();
-            using (IPlaylistService playlistService = serviceCreator.CreatePlaylistService(Connection))
+            using (IPlaylistService playlistService = ServiceCreator.CreatePlaylistService(Connection))
             {
                 PlaylistDTO playlistDto = playlistService.GetById(playlistId);                
                 if(playlistDto != null)
@@ -96,6 +102,27 @@ namespace YourTV_WEB.Controllers
                 return HttpNotFound();
 
             return View(modelPlaylist);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> DeletePlaylist(int playlistid)
+        {
+            using (IPlaylistService playlistService = ServiceCreator.CreatePlaylistService(Connection))
+            {
+                PlaylistDTO playlistDto = playlistService.GetById(playlistid);
+                if(playlistDto.ApplicationUser.UserName == User.Identity.Name)
+                {
+                    OperationDetails details = await playlistService.DeletePlaylist(playlistid);
+                    if (details.Succedeed)
+                        return RedirectToAction("Playlists");
+                    else
+                        return HttpNotFound();
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
         }
     }
 }

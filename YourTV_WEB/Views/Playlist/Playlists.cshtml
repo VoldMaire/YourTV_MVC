@@ -13,6 +13,7 @@
     @foreach (var item in Model.Playlists)
     {
         <div class="col-md-3">
+            @Html.ActionLink("X", "DeletePlaylist", "Playlist", new { playlistId = @item.Id }, new { @class = "btn btn-default" })
             <a href="@Url.Action("PlaylistConcrete", "Playlist", new { playlistId = @item.Id })">
                 <img class="video-image" src="~/Content/Images/DefaultPlaylist.png" alt="@item.Name" />
                 <p>@item.Name</p>
@@ -30,5 +31,6 @@
 <script src="@Url.Content("~/scripts/bootstrap.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/scripts/modalWin.js")" type="text/javascript"></script>
+
 
 @Scripts.Render("~/bundles/jquery")

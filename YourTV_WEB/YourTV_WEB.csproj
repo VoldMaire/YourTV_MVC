@@ -272,6 +272,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\likesScript.js" />
     <Content Include="Scripts\modalWin.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -304,6 +305,7 @@
     <Content Include="Views\Video\LikesUI.cshtml" />
     <Content Include="Views\Video\VideoConcrete.cshtml" />
     <Content Include="Views\Video\Video.cshtml" />
+    <Content Include="Views\Video\VideoDeleting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
