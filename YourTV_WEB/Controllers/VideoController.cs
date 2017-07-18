@@ -34,14 +34,14 @@ namespace YourTV_WEB.Controllers
         }
 
         [Authorize]
-        public ActionResult AddingVideo(VideoViewModel model)
+        public ActionResult AddVideo(VideoViewModel model)
         {
             return View(model);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult AddingVideo(int playlistId)
+        public ActionResult AddVideo(int playlistId)
         {
             VideoViewModel videoVM = new VideoViewModel();
             videoVM.PlaylistId = playlistId;
@@ -116,13 +116,13 @@ namespace YourTV_WEB.Controllers
                 }
                 else
                 {
-                    return AddingVideo(model);
+                    return AddVideo(model);
                 }
             }
             else
             {
                 ModelState.AddModelError("FileNotFound", "Can't found your file. Please try to upload it again.");
-                return AddingVideo(model);
+                return AddVideo(model);
             }
         }
 

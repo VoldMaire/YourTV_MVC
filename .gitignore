@@ -17,6 +17,8 @@ build/
 [Yy]ourTV_WEB/[Ii]mages/
 [Vv]ideos/
 [Cc]ontent/[Vv]ideos/
+[Cc]ontent/[Bb]ootstrap*.css
+/Content/bootstrap.min.css
 .vs
 *.suo
 *.user

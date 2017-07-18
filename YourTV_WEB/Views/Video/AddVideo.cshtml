@@ -1,6 +1,6 @@
 ﻿@model YourTV_WEB.Models.VideoViewModel
 @{
-    ViewBag.Title = "AddingVideo";
+    ViewBag.Title = "AddVideo";
 }
 @Styles.Render("~/Content/dropzonecss")
 
@@ -37,8 +37,8 @@
         </div>
     </div>
 </div>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@Scripts.Render("~/bundles/dropzonescripts")
-@Scripts.Render("~/Scripts/VideoDropzoneUploader.js")
-@Scripts.Render("~/Scripts/AddFileName.js")
+@section scripts{
+    @Scripts.Render("~/bundles/dropzonescripts")
+    @Scripts.Render("~/Scripts/VideoDropzoneUploader.js")
+    @Scripts.Render("~/Scripts/AddFileName.js")
+}

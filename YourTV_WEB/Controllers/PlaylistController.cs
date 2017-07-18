@@ -53,15 +53,15 @@ namespace YourTV_WEB.Controllers
         }
 
         [Authorize]
-        public ActionResult AddingPlaylist()
+        public ActionResult AddPlaylist()
         {
-            return PartialView(new PlaylistConcreteViewModel());
+            return PartialView();
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddingPlaylist(PlaylistConcreteViewModel model)
+        public async Task<ActionResult> AddPlaylist(PlaylistConcreteViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,10 @@ namespace YourTV_WEB.Controllers
                     await playlistService.CreateAsync(playlistDto);
                     playlistDto = playlistService.GetLastByName(model.Name);
                 }
-                return RedirectToAction("PlaylistConcrete", "Playlist", new { playlistId = playlistDto.Id });
+                PartialViewResult part = new PartialViewResult();
+                part.ViewName = "Success";
+                part.View = new SuccesCheckView("Playlist/PlaylistConcrete?" + "playlistId=" + playlistDto.Id);
+                return part;
             }
             ModelState.AddModelError("", "Can't create such playlist.");
             return PartialView(model);
@@ -122,6 +125,22 @@ namespace YourTV_WEB.Controllers
                 {
                     return HttpNotFound();
                 }
+            }            
+        }
+
+        private class SuccesCheckView : IView
+        {
+            public string LinkToRedirect { get; }
+
+            public SuccesCheckView(string link) : base()
+            {
+                LinkToRedirect = link;
+            }
+
+            public void Render(ViewContext viewContext, System.IO.TextWriter writer)
+            {
+                writer.WriteLine("<p id=\"success-check\"> Success </p>)");
+                writer.WriteLine("<p id=redirectLink>" + LinkToRedirect + "</p>");
             }
         }
     }

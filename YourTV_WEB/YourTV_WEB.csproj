@@ -217,15 +217,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dropzonestyles\basic.css" />
     <Content Include="Content\dropzonestyles\basic.min.css" />
     <Content Include="Content\dropzonestyles\dropzone.css" />
     <Content Include="Content\dropzonestyles\dropzone.min.css" />
     <Content Include="Content\Images\DefaultPlaylist.png" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\DefaultVideo.png" />
     <Content Include="Content\Images\spritemap.png" />
     <Content Include="favicon.ico" />
@@ -235,19 +235,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\AddFileName.js" />
+    <Content Include="Content\imagesDropzone\spritemap%402x.png" />
+    <Content Include="Content\imagesDropzone\spritemap.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -256,29 +248,23 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
-    <Content Include="Scripts\dropzone\dropzoneOld.min.js" />
-    <Content Include="Content\imagesDropzone\spritemap%402x.png" />
-    <Content Include="Content\imagesDropzone\spritemap.png" />
-    <Content Include="Scripts\jquery-3.1.1.js" />
-    <Content Include="Scripts\jquery-3.1.1.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Scripts\jquery-2.2.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.4.js" />
+    <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\likesScript.js" />
     <Content Include="Scripts\modalWin.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sendPlaylistFormAJAX.js" />
     <Content Include="Scripts\VideoDropzoneUploader.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -299,13 +285,13 @@
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Playlist\Playlists.cshtml" />
     <Content Include="Views\Playlist\PlaylistConcrete.cshtml" />
-    <Content Include="Views\Playlist\AddingPlaylist.cshtml" />
-    <Content Include="Views\Video\AddingVideo.cshtml" />
+    <Content Include="Views\Playlist\AddPlaylist.cshtml" />
+    <Content Include="Views\Video\AddVideo.cshtml" />
     <Content Include="Views\Video\SaveVideo.cshtml" />
-    <Content Include="Views\Video\LikesUI.cshtml" />
     <Content Include="Views\Video\VideoConcrete.cshtml" />
     <Content Include="Views\Video\Video.cshtml" />
     <Content Include="Views\Video\VideoDeleting.cshtml" />
+    <Content Include="Views\Shared\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -313,6 +299,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-2.2.4.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YourTV_BLL\YourTV_BLL.csproj">
